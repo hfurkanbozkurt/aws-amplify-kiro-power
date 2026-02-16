@@ -78,6 +78,7 @@ Follow the workflow completely. It will guide you through:
 
 ## Available Steering Files
 
-This power has one steering file:
+This power has two steering files:
 
 - **amplify-workflow** - Orchestrated workflow for Amplify Gen 2 development. Coordinates phases: Backend → Sandbox → Frontend → Testing → Production.
+- **amplify-deploy** - Deploy Amplify Gen 2 applications to sandbox or production. Can be used standalone or delegated to from the amplify-workflow orchestrator.

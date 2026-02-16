@@ -14,6 +14,54 @@ The workflow determines which phases apply based on your request.
 
 ---
 
+## Step 1: Validate Prerequisites
+
+Run these checks before proceeding:
+
+1. **Node.js 18.x or later**
+
+   ```bash
+   node --version
+   ```
+
+2. **npm available**
+
+   ```bash
+   npm --version
+   ```
+
+3. **AWS credentials configured** (CRITICAL)
+
+   ```bash
+   AWS_PAGER="" aws sts get-caller-identity
+   ```
+
+## Step 2: Handle Missing AWS Credentials
+
+If the AWS credentials check fails, **STOP** and present this message to the user:
+
+```
+## AWS Credentials Required
+
+I can't proceed without AWS credentials configured. Please set up your credentials first:
+
+**Setup Guide:** https://docs.amplify.aws/react/start/account-setup/
+
+**Quick options:**
+- Run `aws configure` to set up access keys
+- Run `aws sso login` if using AWS IAM Identity Center
+
+Once your credentials are configured, **come back and start a new conversation** to continue building with Amplify.
+```
+
+**Do NOT proceed with Amplify work until credentials are configured.** The user must restart the conversation after setting up credentials.
+
+## Step 3: Execute Workflow
+
+Once all prerequisites pass, follow the workflow below.
+
+---
+
 ## Critical Rules
 
 1. **Always follow SOPs completely** - Do not improvise or skip steps
@@ -32,28 +80,31 @@ The workflow determines which phases apply based on your request.
 
 ---
 
-## Step 1: Determine Applicable Phases
+## Step 4: Determine Applicable Phases
 
 Based on the user's request and project state, determine which phases apply:
 
-| Phase | Applies when |
-|-------|--------------|
-| 1: Backend | User needs to create or modify Amplify backend resources |
-| 2: Sandbox | Backend code needs deployment for testing |
-| 3: Frontend | Frontend needs to connect to Amplify backend |
-| 4: Testing | App ready for local verification |
-| 5: Production | User wants to deploy to production |
+| Phase         | Applies when                                               |
+| ------------- | ---------------------------------------------------------- |
+| 1: Backend    | User needs to create or modify Amplify backend resources   |
+| 2: Sandbox    | Deploy to sandbox for testing (via `amplify-deploy` workflow) |
+| 3: Frontend   | Frontend needs to connect to Amplify backend               |
+| 4: Testing    | App ready for local verification                           |
+| 5: Production | Deploy to production (via `amplify-deploy` workflow)       |
 
 Common patterns:
 - **New full-stack app:** 1 → 2 → 3 → 4 → 5
+- **Backend only (no frontend):** 1 → 2
 - **Add feature to existing backend:** 1 → 2
 - **Redeploy after changes:** 2 only
 - **Connect existing frontend:** 3 → 4
 - **Deploy to production:** 5 only
 
+**IMPORTANT: Only include phases that the user actually needs.** If the user asks for backend work only (e.g., "add auth", "create a data model", "add storage"), do NOT include Phase 3 (Frontend Integration) or Phase 4 (Local Testing). Frontend phases should only be included when the user explicitly asks for frontend work, a full-stack app, or to connect a frontend to Amplify.
+
 ---
 
-## Step 2: Present Plan and Confirm
+## Step 5: Present Plan and Confirm
 
 Present to the user:
 
@@ -73,7 +124,7 @@ Present to the user:
 1. [Phase name] - [one-line description] → SOP: [sop-name]
 2. [Phase name] - [one-line description] → SOP: [sop-name]
 ...
-(Include SOP name for phases 1, 2, 3, and 5. Phase 4 has no SOP.)
+(Include SOP name for phases 1 and 3. Phases 2 and 5 use the `amplify-deploy` workflow. Phase 4 has no SOP.)
 
 Ready to get started? ✨
 ```
@@ -84,25 +135,25 @@ Ready to get started? ✨
 
 ---
 
-## Step 3: Execute Phases
+## Step 6: Execute Phases
 
 Execute each applicable phase IN SEQUENCE.
 
 **When starting a phase, announce it as a header:**
 ```
-## ⚙️ Phase 1: Backend (SOP: amplify-backend-implementation)
+## Phase 1: Backend (SOP: amplify-backend-implementation)
 [Next: Phase 2: Sandbox Deployment]
 
-## 🚀 Phase 2: Sandbox Deployment (SOP: amplify-deployment-guide)
+## Phase 2: Sandbox Deployment (via amplify-deploy workflow)
 [Next: Phase 3: Frontend Integration]
 
-## 🎨 Phase 3: Frontend Integration (SOP: amplify-frontend-integration)
+## Phase 3: Frontend Integration (SOP: amplify-frontend-integration)
 [Next: Phase 4: Local Testing]
 
-## 🧪 Phase 4: Local Testing
+## Phase 4: Local Testing
 [Next: Phase 5: Production Deployment]
 
-## 🌐 Phase 5: Production Deployment (SOP: amplify-deployment-guide)
+## Phase 5: Production Deployment (via amplify-deploy workflow)
 ```
 Omit "[Next: ...]" if it's the last phase in your plan.
 
@@ -110,26 +161,39 @@ Omit "[Next: ...]" if it's the last phase in your plan.
 
 ### Phase 1: Backend
 
+**CRITICAL: Do NOT create frontend scaffolding or templates during this phase.** Do not run `create-next-app`, `create-react-app`, `create-vite`, `npm create`, or any frontend project generators. Phase 1 is strictly for Amplify backend resources (the `amplify/` directory). If a frontend project already exists, leave it untouched. If no frontend project exists and the user only asked for backend work, do NOT create one.
+
+Before creating any files, ensure `.gitignore` exists in the project root and includes:
+`node_modules/`, `.env*`, `amplify_outputs.json`, `.amplify/`, `dist/`, `build/`.
+Create or update it if these entries are missing.
+
 ⚠️ **Do NOT write any code until you have retrieved and read the SOP.**
 
 Use the SOP retrieval tool to get **"amplify-backend-implementation"** and follow it completely.
 
+**SOP overrides for orchestrator context:**
+
+- **Skip the SOP's Step 12** ("Determine Next SOP Requirements") — phase sequencing is controlled by this workflow, not the SOP.
+- **Prerequisites were already validated** in Step 1 of this workflow. The SOP's dependency verification (Step 1) can be skipped.
+
 **After completion:**
 - Summarize what was created
-- **STOP and ask:** "Phase 1 complete. Ready to proceed to Phase 2: Sandbox Deployment? 🚀"
+- **STOP and ask:** "Phase 1 complete. Ready to proceed to Phase 2: Sandbox Deployment?"
 - **WAIT for user confirmation before proceeding.**
 
 ---
 
 ### Phase 2: Sandbox Deployment
 
-⚠️ **Do NOT run any commands until you have retrieved and read the SOP.**
+**Delegate to the `amplify-deploy` workflow** for sandbox deployment.
 
-Use the SOP retrieval tool to get **"amplify-deployment-guide"** and follow it for SANDBOX deployment.
+When invoking, indicate that the deployment target is **sandbox (development)**.
+Also indicate that prerequisites (Node.js, npm, AWS credentials) were already
+validated in Step 1 of this workflow so the deploy workflow can skip re-verification.
 
 **After completion:**
 - Confirm deployment succeeded and `amplify_outputs.json` exists
-- **STOP and ask:** "Phase 2 complete. Ready to proceed to Phase 3: Frontend Integration? 🎨"
+- **STOP and ask:** "Phase 2 complete. Ready to proceed to Phase 3: Frontend Integration?"
 - **WAIT for user confirmation before proceeding.**
 
 ---
@@ -142,9 +206,14 @@ Use the SOP retrieval tool to get **"amplify-deployment-guide"** and follow it f
 
 Use the SOP retrieval tool to get **"amplify-frontend-integration"** and follow it completely.
 
+**SOP overrides for orchestrator context:**
+
+- **Skip the SOP's Step 12** ("Determine Next SOP Requirements") — phase sequencing is controlled by this workflow, not the SOP.
+- **Prerequisites were already validated** in Step 1 of this workflow.
+
 **After completion:**
 - Summarize integration work
-- **STOP and ask:** "Phase 3 complete. Ready to proceed to Phase 4: Local Testing? 🧪"
+- **STOP and ask:** "Phase 3 complete. Ready to proceed to Phase 4: Local Testing?"
 - **WAIT for user confirmation before proceeding.**
 
 ---
@@ -173,9 +242,11 @@ Let me know how it goes! 🤞
 
 ### Phase 5: Production Deployment
 
-⚠️ **Do NOT run any commands until you have retrieved and read the SOP.**
+**Delegate to the `amplify-deploy` workflow** for production deployment.
 
-Use the SOP retrieval tool to get **"amplify-deployment-guide"** and follow it for PRODUCTION deployment.
+When invoking, indicate that the deployment target is **production** (maps to
+`cicd` deployment type in the SOP). Also indicate that prerequisites were
+already validated in Step 1 of this workflow.
 
 **After completion:**
 
