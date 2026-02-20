@@ -68,7 +68,7 @@ steering/
   amplify-deploy.md               -> Shared deployment reference
 ```
 
-The orchestrator loads only the first phase's steering file. Each phase file ends with a hard stop and confirmation question. The next phase's steering file is only loaded after the user confirms.
+The orchestrator loads only the first phase's steering file. Each phase file ends with a hard stop and confirmation question. When the user confirms, the orchestrator dispatches the next phase.
 
 ## MCP Tools
 

@@ -53,12 +53,4 @@ After the SOP is fully executed:
 Phase 1: Backend is complete. Ready to proceed to the next phase?
 ```
 
-**STOP HERE. Do NOT read the next phase's steering file until the user confirms.**
-
-When the user confirms, read the next phase's steering file from your plan:
-
-```
-Call action "readSteering" with powerName="aws-amplify", steeringFile="<next-phase-file>"
-```
-
-If this was the last phase in the plan, you are done.
+**STOP HERE.** Do NOT read any other steering files. Do NOT proceed to the next phase. Wait for the user to confirm, then let the orchestrator workflow handle what comes next.

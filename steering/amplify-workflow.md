@@ -121,19 +121,29 @@ Ready to get started?
 
 ---
 
-## Step 5: Execute the First Phase
+## Step 5: Execute Phases
 
 After the user confirms the plan, read **ONLY the first phase's steering file** using readSteering:
 
 ```
-Call action "readSteering" with powerName="aws-amplify", steeringFile="<first-phase-file>"
+Call action "readSteering" with powerName="aws-amplify", steeringFile="<phase-file>"
 ```
 
-Where `<first-phase-file>` is the steering file for the first phase in the plan (from the table above).
+Where `<phase-file>` is the steering file for the first phase in the plan (from the table in Step 3).
 
-**Do NOT read any other phase steering files yet.** Each phase file will tell you what to do next when it completes.
+**Do NOT read any other phase steering files yet.**
 
-Remember the full phase plan — each phase file will instruct you to proceed to the next phase in your plan after user confirmation.
+### Resuming After a Phase Completes
+
+When a phase completes, it will stop and ask the user if they are ready to continue. After the user confirms, determine the next phase in your plan and read its steering file:
+
+```
+Call action "readSteering" with powerName="aws-amplify", steeringFile="<next-phase-file>"
+```
+
+**If there are no more phases in the plan, the workflow is complete.**
+
+Do NOT re-run prerequisites or re-present the plan. Simply dispatch the next phase.
 
 ---
 
