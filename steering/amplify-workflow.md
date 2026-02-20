@@ -76,15 +76,15 @@ Based on the user's request and project state, determine which phases apply:
 | 1: Backend         | User needs to create or modify Amplify backend resources | `phase1-backend.md`  |
 | 2: Sandbox         | Deploy to sandbox for testing                            | `phase2-sandbox.md`  |
 | 3: Frontend & Test | Frontend needs to connect to Amplify backend             | `phase3-frontend.md` |
-| 5: Production      | Deploy to production                                     | `phase5-production.md` |
+| 4: Production      | Deploy to production                                     | `phase4-production.md` |
 
 Common patterns:
-- **New full-stack app:** 1 -> 2 -> 3 -> 5
+- **New full-stack app:** 1 -> 2 -> 3 -> 4
 - **Backend only (no frontend):** 1 -> 2
 - **Add feature to existing backend:** 1 -> 2
 - **Redeploy after changes:** 2 only
 - **Connect existing frontend:** 3 only
-- **Deploy to production:** 5 only
+- **Deploy to production:** 4 only
 
 **IMPORTANT: Only include phases that the user actually needs.** If the user asks for backend work only (e.g., "add auth", "create a data model", "add storage"), do NOT include Phase 3 (Frontend & Test). Frontend phases should only be included when the user explicitly asks for frontend work, a full-stack app, or to connect a frontend to Amplify.
 
@@ -110,7 +110,7 @@ Present to the user:
 1. [Phase name] - [one-line description] -> SOP: [sop-name]
 2. [Phase name] - [one-line description] -> SOP: [sop-name]
 ...
-(Include SOP name for phases 1 and 3. Phases 2 and 5 use the amplify-deploy workflow.)
+(Include SOP name for phases 1 and 3. Phases 2 and 4 use the amplify-deployment-guide SOP.)
 
 Ready to get started?
 ```

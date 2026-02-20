@@ -43,15 +43,15 @@ This power provides guided workflows for Kiro (AI-powered IDE) to help you build
 | 1: Backend | Create/modify Amplify backend resources | amplify-backend-implementation |
 | 2: Sandbox | Deploy to sandbox for testing | amplify-deployment-guide |
 | 3: Frontend & Test | Connect frontend + local verification | amplify-frontend-integration |
-| 5: Production | Deploy to production | amplify-deployment-guide |
+| 4: Production | Deploy to production | amplify-deployment-guide |
 
 ### Common Patterns
 
-- **New full-stack app**: Phase 1 -> 2 -> 3 -> 5
+- **New full-stack app**: Phase 1 -> 2 -> 3 -> 4
 - **Add feature to existing backend**: Phase 1 -> 2
 - **Redeploy after changes**: Phase 2 only
 - **Connect existing frontend**: Phase 3 only
-- **Deploy to production**: Phase 5 only
+- **Deploy to production**: Phase 4 only
 
 ### Architecture
 
@@ -64,7 +64,7 @@ steering/
   phase1-backend.md               -> Phase 1: Backend (calls backend SOP)
   phase2-sandbox.md               -> Phase 2: Sandbox (calls deployment SOP)
   phase3-frontend.md              -> Phase 3: Frontend + Testing (calls frontend SOP)
-  phase5-production.md            -> Phase 5: Production (calls deployment SOP)
+  phase4-production.md            -> Phase 4: Production (calls deployment SOP)
   amplify-deploy.md               -> Shared deployment reference
 ```
 

@@ -1,4 +1,4 @@
-# Phase 5: Production Deployment
+# Phase 4: Production Deployment
 
 Deploy the Amplify Gen 2 application to production.
 

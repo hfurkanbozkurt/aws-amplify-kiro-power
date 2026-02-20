@@ -40,4 +40,4 @@ The workflow will guide you through:
 
 - Any Amplify Gen 2 work -> `amplify-workflow.md`
 
-**Do NOT load phase steering files directly.** The orchestrator (`amplify-workflow.md`) determines which phases apply and loads them in sequence. Phase files (`phase1-backend.md`, `phase2-sandbox.md`, `phase3-frontend.md`, `phase5-production.md`) are internal and should only be loaded when the orchestrator or a previous phase instructs you to.
+**Do NOT load phase steering files directly.** The orchestrator (`amplify-workflow.md`) determines which phases apply and loads them in sequence. Phase files (`phase1-backend.md`, `phase2-sandbox.md`, `phase3-frontend.md`, `phase4-production.md`) are internal and should only be loaded when the orchestrator or a previous phase instructs you to.
