@@ -135,13 +135,23 @@ Where `<phase-file>` is the steering file for the first phase in the plan (from 
 
 ### Resuming After a Phase Completes
 
-When a phase completes, it will stop and ask the user if they are ready to continue. After the user confirms, determine the next phase in your plan and read its steering file:
+When a phase completes, it will summarize what it did and stop. The orchestrator takes over:
+
+1. Tell the user which phase just finished
+2. If there are more phases in the plan, ask:
+
+```
+[Phase name] is complete. Ready to proceed to [next phase name]?
+```
+
+3. **WAIT for the user to confirm before proceeding.**
+4. After the user confirms, read the next phase's steering file:
 
 ```
 Call action "readSteering" with powerName="aws-amplify", steeringFile="<next-phase-file>"
 ```
 
-**If there are no more phases in the plan, the workflow is complete.**
+**If there are no more phases in the plan, the workflow is complete.** Tell the user all phases are done.
 
 Do NOT re-run prerequisites or re-present the plan. Simply dispatch the next phase.
 
@@ -152,7 +162,7 @@ Do NOT re-run prerequisites or re-present the plan. Simply dispatch the next pha
 1. **Always follow SOPs completely** - Do not improvise or skip steps
 2. **Never use Gen 1 patterns** - This power is for Amplify Gen 2 only (TypeScript code-first, `defineAuth`/`defineData`/`defineStorage`/`defineFunction`)
 3. **One phase at a time** - Read only one phase steering file at a time. Do not read ahead.
-4. **Wait for confirmation between phases** - Each phase ends with a confirmation question. Do not proceed until the user confirms.
+4. **Wait for confirmation between phases** - After each phase completes, ask the user to confirm before dispatching the next phase. Do not proceed until the user confirms.
 5. **If you encounter an error or get sidetracked:**
    - Fix the immediate issue
    - Return to the SOP and continue from where you left off

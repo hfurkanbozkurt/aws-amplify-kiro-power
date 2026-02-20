@@ -58,13 +58,6 @@ Let me know how it goes — or if anything needs changes!
 
 ## Phase Complete
 
-Once the user confirms testing is successful (or has no changes needed):
+Once the user confirms testing is successful (or has no changes needed), summarize the frontend integration and testing results.
 
-1. Summarize the frontend integration and testing results
-2. Ask the user:
-
-```
-Phase 3: Frontend & Testing is complete. Ready to proceed to the next phase?
-```
-
-**STOP HERE.** Do NOT read any other steering files. Do NOT proceed to the next phase. Wait for the user to confirm, then let the orchestrator workflow handle what comes next.
+**STOP HERE.** Do NOT read any other steering files. Do NOT proceed to the next phase. The orchestrator workflow will handle what comes next.

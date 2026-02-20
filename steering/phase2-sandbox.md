@@ -42,10 +42,6 @@ After the SOP is fully executed:
 
 1. Confirm deployment succeeded
 2. Verify `amplify_outputs.json` exists in the project root
-3. Ask the user:
+3. Summarize the deployment results
 
-```
-Phase 2: Sandbox Deployment is complete. Ready to proceed to the next phase?
-```
-
-**STOP HERE.** Do NOT read any other steering files. Do NOT proceed to the next phase. Wait for the user to confirm, then let the orchestrator workflow handle what comes next.
+**STOP HERE.** Do NOT read any other steering files. Do NOT proceed to the next phase. The orchestrator workflow will handle what comes next.

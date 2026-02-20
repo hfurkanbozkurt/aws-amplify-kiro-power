@@ -44,13 +44,6 @@ Follow all other SOP steps (2 through 11) completely. Do not improvise or skip t
 
 ## Phase Complete
 
-After the SOP is fully executed:
+After the SOP is fully executed, summarize what was created (which resources, files, configurations).
 
-1. Summarize what was created (which resources, files, configurations)
-2. Ask the user:
-
-```
-Phase 1: Backend is complete. Ready to proceed to the next phase?
-```
-
-**STOP HERE.** Do NOT read any other steering files. Do NOT proceed to the next phase. Wait for the user to confirm, then let the orchestrator workflow handle what comes next.
+**STOP HERE.** Do NOT read any other steering files. Do NOT proceed to the next phase. The orchestrator workflow will handle what comes next.
