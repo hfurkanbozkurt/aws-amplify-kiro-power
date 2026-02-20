@@ -2,7 +2,7 @@
 name: "aws-amplify"
 displayName: "Build full-stack apps with AWS Amplify"
 description: "Build and extend full-stack applications with AWS Amplify Gen 2 using type-safe TypeScript, guided workflows, and best practices. Covers adding features to existing Amplify backends, authentication, data models, storage, serverless functions, and AI/ML integration."
-keywords: ["amplify", "aws-amplify", "amplify gen 2", "gen2", "fullstack", "full-stack", "lambda", "graphql", "cognito", "sandbox", "backend", "auth", "authentication", "storage", "data model", "react", "nextjs", "next.js", "vue", "nuxt", "angular", "react native", "flutter", "swift", "android", "ios"]
+keywords: ["amplify", "aws-amplify", "amplify gen 2", "gen2", "fullstack", "full-stack", "lambda", "graphql", "cognito", "sandbox", "backend", "auth", "authentication", "storage", "data model", "react", "nextjs", "next.js", "vue", "nuxt", "angular", "react native", "flutter", "swift", "android", "ios", "deploy", "deployment", "production"]
 author: "AWS"
 ---
 
@@ -19,66 +19,25 @@ Build full-stack applications with AWS Amplify Gen 2 using TypeScript code-first
 
 ## Getting Started
 
-⚠️ **IMPORTANT: You MUST read and follow the steering file for ANY Amplify work.** Do not improvise or skip the workflow.
+**IMPORTANT: You MUST read and follow the steering file for ANY Amplify work.** Do not improvise or skip the workflow.
 
 **For AI agents helping users build Amplify apps:**
 
-### Step 1: Validate Prerequisites
-
-Run these checks before proceeding:
-
-1. **Node.js 18.x or later**
-   ```bash
-   node --version
-   ```
-
-2. **npm available**
-   ```bash
-   npm --version
-   ```
-
-3. **AWS credentials configured** (CRITICAL)
-   ```bash
-   AWS_PAGER="" aws sts get-caller-identity
-   ```
-
-### Step 2: Handle Missing AWS Credentials
-
-If the AWS credentials check fails, **STOP** and present this message to the user:
-
-```
-## ⚠️ AWS Credentials Required
-
-I can't proceed without AWS credentials configured. Please set up your credentials first:
-
-**📚 Setup Guide:** https://docs.amplify.aws/react/start/account-setup/
-
-**Quick options:**
-- Run `aws configure` to set up access keys
-- Run `aws sso login` if using AWS IAM Identity Center
-
-Once your credentials are configured, **come back and start a new conversation** to continue building with Amplify.
-```
-
-**Do NOT proceed with Amplify work until credentials are configured.** The user must restart the conversation after setting up credentials.
-
-### Step 3: Read the Workflow
-
-Once all prerequisites pass, ALWAYS read the workflow steering file:
+ALWAYS read the workflow steering file first:
 
 ```
 Call action "readSteering" with powerName="aws-amplify", steeringFile="amplify-workflow.md"
 ```
 
-Follow the workflow completely. It will guide you through:
-- Determining which phases apply to the user's request
-- Presenting a plan and getting confirmation
-- Executing phases: Backend → Sandbox → Frontend → Testing → Production
-- Calling the appropriate SOPs for each phase
+The workflow will guide you through:
+1. Validating prerequisites (Node.js, npm, AWS credentials)
+2. Understanding the project's current state
+3. Determining which phases apply to the user's request
+4. Presenting a plan and getting confirmation
+5. Executing phases one at a time with user confirmation between each
 
-## Available Steering Files
+## When to Load Steering Files
 
-This power has two steering files:
+- Any Amplify Gen 2 work -> `amplify-workflow.md`
 
-- **amplify-workflow** - Orchestrated workflow for Amplify Gen 2 development. Coordinates phases: Backend → Sandbox → Frontend → Testing → Production.
-- **amplify-deploy** - Deploy Amplify Gen 2 applications to sandbox or production. Can be used standalone or delegated to from the amplify-workflow orchestrator.
+**Do NOT load phase steering files directly.** The orchestrator (`amplify-workflow.md`) determines which phases apply and loads them in sequence. Phase files (`phase1-backend.md`, `phase2-sandbox.md`, `phase3-frontend.md`, `phase5-production.md`) are internal and should only be loaded when the orchestrator or a previous phase instructs you to.

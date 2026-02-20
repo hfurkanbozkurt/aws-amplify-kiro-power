@@ -30,10 +30,11 @@ This power provides guided workflows for Kiro (AI-powered IDE) to help you build
 ## How it works
 
 1. Describe what you want to build
-2. The power reads your project files to understand the current state
+2. The power validates prerequisites and reads your project files
 3. It determines which phases apply and presents a plan for confirmation
-4. Each phase uses the SOP retrieval tool to get and follow AWS Amplify's official SOPs
-5. You get a working full-stack app with best practices baked in
+4. You confirm, and the power executes one phase at a time
+5. After each phase, it stops and waits for your confirmation before proceeding
+6. Each phase uses the SOP retrieval tool to get and follow AWS Amplify's official SOPs
 
 ### Phases
 
@@ -41,17 +42,33 @@ This power provides guided workflows for Kiro (AI-powered IDE) to help you build
 |-------|-------------|-----|
 | 1: Backend | Create/modify Amplify backend resources | amplify-backend-implementation |
 | 2: Sandbox | Deploy to sandbox for testing | amplify-deployment-guide |
-| 3: Frontend | Connect frontend to Amplify backend | amplify-frontend-integration |
-| 4: Testing | Local verification (user testing) | - |
+| 3: Frontend & Test | Connect frontend + local verification | amplify-frontend-integration |
 | 5: Production | Deploy to production | amplify-deployment-guide |
 
 ### Common Patterns
 
-- **New full-stack app**: Phase 1 → 2 → 3 → 4 → 5
-- **Add feature to existing backend**: Phase 1 → 2
+- **New full-stack app**: Phase 1 -> 2 -> 3 -> 5
+- **Add feature to existing backend**: Phase 1 -> 2
 - **Redeploy after changes**: Phase 2 only
-- **Connect existing frontend**: Phase 3 → 4
+- **Connect existing frontend**: Phase 3 only
 - **Deploy to production**: Phase 5 only
+
+### Architecture
+
+The power uses split steering files to enforce user confirmation between phases:
+
+```
+POWER.md                          -> Entry point, maps to orchestrator only
+steering/
+  amplify-workflow.md             -> Orchestrator: prereqs, planning, dispatches to phases
+  phase1-backend.md               -> Phase 1: Backend (calls backend SOP)
+  phase2-sandbox.md               -> Phase 2: Sandbox (calls deployment SOP)
+  phase3-frontend.md              -> Phase 3: Frontend + Testing (calls frontend SOP)
+  phase5-production.md            -> Phase 5: Production (calls deployment SOP)
+  amplify-deploy.md               -> Shared deployment reference
+```
+
+The orchestrator loads only the first phase's steering file. Each phase file ends with a hard stop and confirmation question. The next phase's steering file is only loaded after the user confirms.
 
 ## MCP Tools
 
